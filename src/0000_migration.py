@@ -1,0 +1,1 @@
+print("hey from 000_migration.py")
