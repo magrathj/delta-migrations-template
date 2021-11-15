@@ -1,7 +1,7 @@
 
 import pyspark
 from delta import *
-from delta_migrations import main 
+from delta_migrations import DeltaMigrationRunner 
 
 def spark_setup():
     builder = (
@@ -19,4 +19,4 @@ def spark_setup():
 if __name__ == "__main__":
     delta_migration_history_path = '/tmp/history/'
     spark = spark_setup()
-    main(spark, delta_migration_history_path)
+    DeltaMigrationRunner(spark, delta_migration_history_path).main()
