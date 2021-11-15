@@ -1,9 +1,11 @@
+import pyspark
+from delta import *
 from delta_migrations import DeltaMigrationHelper
+from pyspark.sql.types import StructType, StructField, StringType, TimestampType
 
-print("Run Template example 0000_migration.py")
+print("Running Template example 0000_migration.py")
 
-
-def get_spark():
+def spark_setup():
     builder = (
         pyspark.sql.SparkSession.builder
         .master("local[1]")
@@ -14,7 +16,7 @@ def get_spark():
         .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
     )
     spark = spark = configure_spark_with_delta_pip(builder).getOrCreate()
-    yield spark
+    return spark
 
 input = {
             'table_name': 'example1',
@@ -24,6 +26,9 @@ input = {
             'partition_by': ["script_name"],
         }
 
-spark = get_spark()
+spark = spark_setup()
 delta_migration_helper = DeltaMigrationHelper(spark)
 delta_migration_helper.modify_delta_table(input)
+
+
+print("Completed Template example 0000_migration.py")
